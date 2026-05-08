@@ -42,17 +42,23 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={`nav-underline text-sm font-medium transition-colors ${overHero ? "text-cream/90 hover:text-gold" : "text-foreground/80 hover:text-primary"}`}
-              activeProps={{ className: overHero ? "text-gold" : "text-primary", "data-active": "true" } as never}
-              activeOptions={{ exact: l.to === "/" }}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const isActive = l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
+            return (
+              <Link
+                key={l.to}
+                to={l.to}
+                data-active={isActive ? "true" : undefined}
+                className={`nav-underline text-sm font-medium transition-colors ${
+                  isActive
+                    ? overHero ? "text-gold" : "text-primary"
+                    : overHero ? "text-cream/90 hover:text-gold" : "text-foreground/80 hover:text-primary"
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
           <span className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium transition-colors ${overHero ? "bg-cream/10 text-cream backdrop-blur" : "bg-secondary"}`}>
             <span className={`h-2 w-2 rounded-full ${openNow ? "bg-emerald-500 anim-pulse-glow" : "bg-muted-foreground"}`} style={{ boxShadow: openNow ? "0 0 0 0 rgba(16,185,129,.6)" : undefined }} />
             {openNow ? "Open now" : "Closed"}
