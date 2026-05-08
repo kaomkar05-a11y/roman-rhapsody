@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { Reveal } from "@/components/Reveal";
+import { CountUp } from "@/components/CountUp";
 
 export const Route = createFileRoute("/reviews")({
   head: () => ({
@@ -24,8 +26,15 @@ const reviews = [
   { name: "Manna P", text: "We came back three times during our stay — it was that good! Their pastries, breakfast combos, and dishes are amazing — a delicious fusion of English and Italian cuisine." },
 ];
 
-function Stars() {
-  return <span className="text-gold tracking-tight" aria-label="5 star rating">★★★★★</span>;
+function Stars({ animate = false }: { animate?: boolean }) {
+  return (
+    <span
+      className={`inline-block text-gold tracking-tight ${animate ? "anim-stars" : ""}`}
+      aria-label="5 star rating"
+    >
+      ★★★★★
+    </span>
+  );
 }
 
 function ReviewsPage() {
@@ -34,18 +43,22 @@ function ReviewsPage() {
 
   return (
     <>
-      <section className="bg-gradient-warm py-20 text-cream">
+      <section className="relative overflow-hidden bg-gradient-warm py-20 text-cream">
         <div className="mx-auto max-w-5xl px-5 text-center lg:px-8">
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Le Recensioni</span>
-          <h1 className="mt-4 font-display text-5xl font-bold md:text-6xl">Loved by guests worldwide</h1>
-          <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-6 rounded-2xl bg-cream/10 px-8 py-5 backdrop-blur">
+          <span className="anim-fade-up text-xs font-semibold uppercase tracking-[0.25em] text-gold">Le Recensioni</span>
+          <h1 className="anim-fade-up delay-150 mt-4 font-display text-5xl font-bold md:text-6xl">Loved by guests worldwide</h1>
+          <div className="anim-fade-up delay-300 mt-8 inline-flex flex-wrap items-center justify-center gap-6 rounded-2xl bg-cream/10 px-8 py-5 backdrop-blur">
             <div className="text-left">
-              <div className="font-display text-5xl font-bold text-gold">4.8</div>
-              <Stars />
+              <div className="font-display text-5xl font-bold text-gold">
+                <CountUp to={4.8} decimals={1} />
+              </div>
+              <Stars animate />
             </div>
             <div className="h-12 w-px bg-cream/30" />
             <div className="text-left">
-              <div className="font-display text-3xl font-semibold">13,949</div>
+              <div className="font-display text-3xl font-semibold">
+                <CountUp to={13949} duration={2000} />
+              </div>
               <div className="text-xs uppercase tracking-widest text-cream/70">Google Reviews</div>
             </div>
           </div>
@@ -54,9 +67,10 @@ function ReviewsPage() {
 
       <section className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {visible.map((r) => (
-            <article key={r.name} className="flex flex-col rounded-2xl bg-card p-7 shadow-soft transition hover:shadow-warm">
-              <Stars />
+          {visible.map((r, i) => (
+            <Reveal key={r.name} as="article" delay={(i % 6) * 100}
+              className="lift flex flex-col rounded-2xl bg-card p-7 shadow-soft">
+              <Stars animate />
               <p className="mt-4 flex-1 text-foreground/85 leading-relaxed">"{r.text}"</p>
               <footer className="mt-6 flex items-center gap-3 border-t border-border pt-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-gold font-display text-lg font-bold text-gold-foreground">
@@ -67,7 +81,7 @@ function ReviewsPage() {
                   <div className="text-xs text-muted-foreground">via Google Reviews</div>
                 </div>
               </footer>
-            </article>
+            </Reveal>
           ))}
         </div>
 
@@ -75,7 +89,7 @@ function ReviewsPage() {
           <div className="mt-12 text-center">
             <button
               onClick={() => setShowAll(true)}
-              className="rounded-full border-2 border-primary px-8 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground"
+              className="press rounded-full border-2 border-primary px-8 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground"
             >
               Load more reviews
             </button>
