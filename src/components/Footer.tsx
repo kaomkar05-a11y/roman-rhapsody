@@ -1,10 +1,10 @@
-import { Link } from "@tanstack/react-router";
 import { SITE } from "@/lib/site";
+import { Reveal } from "@/components/Reveal";
 
 export function Footer() {
   return (
     <footer className="mt-24 bg-charcoal text-cream">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-4 lg:px-8">
+      <Reveal as="div" className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-4 lg:px-8">
         <div className="md:col-span-2">
           <h3 className="font-display text-2xl text-cream">{SITE.name}</h3>
           <p className="mt-2 text-sm text-cream/70">{SITE.tagline}</p>
@@ -32,12 +32,12 @@ export function Footer() {
             <li>Sunday · 7:00 – 22:00</li>
           </ul>
           <div className="mt-4 flex gap-3 text-sm">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-gold">Instagram</a>
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-gold">Facebook</a>
-            <a href="https://social.quandoo.com" target="_blank" rel="noreferrer" className="hover:text-gold">Quandoo</a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="nav-underline hover:text-gold">Instagram</a>
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="nav-underline hover:text-gold">Facebook</a>
+            <a href="https://social.quandoo.com" target="_blank" rel="noreferrer" className="nav-underline hover:text-gold">Quandoo</a>
           </div>
         </div>
-      </div>
+      </Reveal>
       <div className="border-t border-cream/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5 text-xs text-cream/60 md:flex-row md:items-center md:justify-between lg:px-8">
           <p>© {new Date().getFullYear()} Caffè Delle Commari. All rights reserved.</p>
