@@ -92,3 +92,125 @@
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .text-balance { text-wrap: balance; }
 }
+
+/* ============================================================
+   Animations — subtle, elegant, upscale
+   ============================================================ */
+
+@keyframes cdc-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cdc-fade-down {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cdc-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes cdc-slide-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes cdc-slide-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes cdc-ken-burns {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.12) translate(-1.5%, -1%); }
+}
+@keyframes cdc-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 50%, transparent), var(--shadow-warm); }
+  50%      { box-shadow: 0 0 0 14px color-mix(in oklab, var(--primary) 0%, transparent), var(--shadow-warm); }
+}
+@keyframes cdc-logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+@keyframes cdc-flicker {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px color-mix(in oklab, var(--primary) 50%, transparent)); }
+  50%      { opacity: 0.78; filter: drop-shadow(0 0 8px color-mix(in oklab, var(--primary) 70%, transparent)); }
+}
+@keyframes cdc-bokeh {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.18; }
+  50%  { transform: translate3d(20px, -30px, 0) scale(1.15); opacity: 0.32; }
+  100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.18; }
+}
+@keyframes cdc-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes cdc-stars-fill {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes cdc-check-draw {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@layer utilities {
+  /* Easing tokens */
+  :root { --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* On-load entrance utilities */
+  .anim-fade-up      { opacity: 0; animation: cdc-fade-up   .7s var(--ease-out-soft) forwards; }
+  .anim-fade-down    { opacity: 0; animation: cdc-fade-down .6s var(--ease-out-soft) forwards; }
+  .anim-ken-burns    { animation: cdc-ken-burns 18s ease-out forwards; }
+  .anim-logo-pulse   { animation: cdc-logo-pulse 2.4s var(--ease-out-soft) 1; }
+  .anim-pulse-glow   { animation: cdc-pulse-glow 2.6s ease-out infinite; }
+  .anim-flicker      { animation: cdc-flicker 2.8s ease-in-out infinite; }
+  .anim-spin         { animation: cdc-spin .8s linear infinite; }
+  .anim-stars        { animation: cdc-stars-fill 1.1s var(--ease-out-soft) forwards; }
+
+  .delay-150 { animation-delay: .15s; }
+  .delay-300 { animation-delay: .3s; }
+  .delay-450 { animation-delay: .45s; }
+  .delay-600 { animation-delay: .6s; }
+  .delay-750 { animation-delay: .75s; }
+
+  /* Scroll-reveal — toggled by Reveal component */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease-out-soft), transform .7s var(--ease-out-soft); will-change: opacity, transform; }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  .reveal-left  { opacity: 0; transform: translateX(-40px); transition: opacity .7s var(--ease-out-soft), transform .7s var(--ease-out-soft); }
+  .reveal-left.is-visible { opacity: 1; transform: none; }
+
+  .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity .7s var(--ease-out-soft), transform .7s var(--ease-out-soft); }
+  .reveal-right.is-visible { opacity: 1; transform: none; }
+
+  .reveal-scale { opacity: 0; transform: scale(.95); transition: opacity .6s var(--ease-out-soft), transform .6s var(--ease-out-soft); }
+  .reveal-scale.is-visible { opacity: 1; transform: none; }
+
+  /* Hover lift for cards */
+  .lift { transition: transform .3s var(--ease-out-soft), box-shadow .3s var(--ease-out-soft); }
+  .lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-warm); }
+
+  /* Animated underline on nav links */
+  .nav-underline { position: relative; }
+  .nav-underline::after {
+    content: ""; position: absolute; left: 0; bottom: -4px; height: 2px; width: 100%;
+    background: var(--primary); transform: scaleX(0); transform-origin: right center;
+    transition: transform .35s var(--ease-out-soft);
+  }
+  .nav-underline:hover::after,
+  .nav-underline[data-active="true"]::after { transform: scaleX(1); transform-origin: left center; }
+
+  /* Press feedback on buttons */
+  .press { transition: transform .2s ease-out, box-shadow .2s ease-out, background-color .2s ease-out, color .2s ease-out; }
+  .press:active { transform: scale(.97); }
+
+  /* Bokeh dots */
+  .bokeh { position: absolute; border-radius: 9999px; pointer-events: none; filter: blur(1px);
+    background: radial-gradient(circle at 30% 30%, color-mix(in oklab, var(--gold) 80%, transparent), transparent 70%);
+    animation: cdc-bokeh 9s ease-in-out infinite; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up, .anim-fade-down, .anim-ken-burns, .anim-logo-pulse,
+  .anim-pulse-glow, .anim-flicker, .anim-stars, .bokeh,
+  .reveal, .reveal-left, .reveal-right, .reveal-scale {
+    animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important;
+  }
+}
